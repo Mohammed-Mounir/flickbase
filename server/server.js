@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const xss = require('xss-clean');
 const mongoSanitize = require('express-mongo-sanitize');
+const routes = require('./routes');
 require('dotenv').config();
 
 const app = express();
@@ -18,6 +19,9 @@ app.use(bodyParser.json());
 // sanitize
 app.use(xss());
 app.use(mongoSanitize());
+
+// routes
+app.use('/api', routes);
 
 const port = process.env.PORT || 3001;
 app.listen(port, () => {
