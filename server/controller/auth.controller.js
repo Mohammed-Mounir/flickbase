@@ -13,7 +13,8 @@ const authController = {
         token,
       });
     } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send(error.message);
+      // res.status(httpStatus.BAD_REQUEST).send(error.message);
+      next(error);
     }
   },
   async signin(req, res, next) {
@@ -30,7 +31,8 @@ const authController = {
         token,
       });
     } catch (error) {
-      res.status(httpStatus.BAD_REQUEST).send(error.message);
+      // res.status(httpStatus.BAD_REQUEST).send(error.message);
+      next(error);
     }
   },
 };

@@ -1,3 +1,6 @@
+const httpStatus = require('http-status');
+// MIDDLEWARE
+const { ApiError } = require('../middleware/apiError');
 // MODELS
 const { User } = require('../models/user');
 // SERVICES
@@ -6,7 +9,7 @@ const userService = require('./user.service');
 const createUser = async (email, password) => {
   try {
     if (await User.emailTaken(email)) {
-      throw new Error('Sorry email taken');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Sorry email taken');
     }
 
     const user = new User({
@@ -31,13 +34,13 @@ const signInWithEmailAndPassword = async (email, password) => {
   try {
     const user = await userService.findUserByEmail(email);
     if (!user) {
-      throw new Error("Email doesn't exist");
+      throw new ApiError(httpStatus.BAD_REQUEST, "Email doesn't exist");
     }
 
     const isPasswordValid = await user.comparePassword(password);
 
     if (!isPasswordValid) {
-      throw new Error('Invalid password');
+      throw new ApiError(httpStatus.BAD_REQUEST, 'Invalid password');
     }
 
     return user;
